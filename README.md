@@ -2,8 +2,8 @@
 Why another UART to USB converter when we have [CH343G](https://www.waveshare.com/ch343-usb-uart-board.htm), [FT232](https://www.waveshare.com/ft232-usb-uart-board-type-c.htm), [CP2102](https://www.waveshare.com/cp2102-usb-uart-board-type-c.htm), and many other similar converters? The short answer is flexibility. The longer one is sniffing communication between two wiper actuators developed by Bosch. I was playing with Renault Scenic IV wiper actuators. The part numbers are [288A54125R](https://allegro.pl/listing?string=288A54125R) and [288157018R](https://allegro.pl/listing?string=288157018R). The left one (at least for the European version) communicates with the BCM over the LIN bus [[19200 bps]](https://github.com/ufnalski/renault_scenic_wiper_actuators_g431kb), whereas the right one takes commands from the left one using standard UART communication (no break and sync fields, bitrate much higher than allowed by the LIN bus standard). Standard UART to USB converters support some predefined set of bitrates. It was clear from the logic analyzer that the wipers use something close to 64 kbps, which is a non-standard baud rate for UART. The closest standard 57600 bps didn't work. Therefore, an STM32 was used as a converter. The beauty of such a solution is its versatility. You can play with any baud rates, any data types, any checksums/CRCs, any serial plotters, and many more. A couple of lines and the world is your oyster :grey_exclamation:
 
 ![UART to USB sniffer in action](/Assets/Images/uart_to_usb_sniffer_in_action.jpg)
-![Logic analyzer UART decoder](/Assets/Images/logic_analyzer_uart_64_kps.jpg)
-![Web serial plotter wiper position](/Assets/Images/web_serial_plotter_wiper_position.jpg)
+![Logic analyzer UART decoder](/Assets/Images/logic_analyzer_uart_64_kps.JPG)
+![Web serial plotter wiper position](/Assets/Images/web_serial_plotter_wiper_position.JPG)
 
 > [!NOTE]
 > The measured baud rate is 1000000/(156.2/10) kbps which is 64 kbps. The division by 10 comes from an 8-bit payload plus one start bit and one stop bit.
